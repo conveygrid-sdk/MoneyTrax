@@ -94,10 +94,10 @@ struct PrivacyPolicyView: View {
 
                 // Contact
                 policySection(
-                    title: "Questions",
+                    title: "Questions & Support",
                     icon: "envelope.fill",
                     content: """
-                    If you have questions about your data or this privacy policy, please contact us through the App Store listing.
+                    If you have questions about your data or this privacy policy, please contact us at kcspldoc@gmail.com or visit https://www.rysun.com.
                     """
                 )
             }
