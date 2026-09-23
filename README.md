@@ -3,8 +3,8 @@
 [![iOS 17.0+](https://img.shields.io/badge/iOS-17.0%2B-blue.svg?style=flat&logo=apple)](https://developer.apple.com/ios/)
 [![Swift 5.9](https://img.shields.io/badge/Swift-5.9-F05138.svg?style=flat&logo=swift)](https://swift.org)
 [![SwiftData](https://img.shields.io/badge/Storage-SwiftData-orange.svg?style=flat)](https://developer.apple.com/documentation/swiftdata)
-[![Privacy Policy](https://img.shields.io/badge/Privacy-Policy-green.svg?style=flat)](https://rysun-harshilbhatt.github.io/monytrax/)
-[![Support Center](https://img.shields.io/badge/Help-Support-blue.svg?style=flat)](https://rysun-harshilbhatt.github.io/monytrax/support.html)
+[![Privacy Policy](https://img.shields.io/badge/Privacy-Policy-green.svg?style=flat)](https://rysun-harshilbhatt.github.io/MoneyTrax/)
+[![Support Center](https://img.shields.io/badge/Help-Support-blue.svg?style=flat)](https://rysun-harshilbhatt.github.io/MoneyTrax/support.html)
 [![License](https://img.shields.io/badge/License-Proprietary-lightgrey.svg?style=flat)]()
 
 **MoneyTrax** is a privacy-first, local-first daily expense and income tracking application built with **SwiftUI** and **SwiftData**. It is engineered to help users effortlessly record daily expenses, track income streams, set categorized monthly budgets, and analyze spending habits with interactive charts.
@@ -29,9 +29,9 @@ MoneyTrax also serves as a premier reference implementation for integrating the 
 
 | Resource | URL |
 | :--- | :--- |
-| **Official Privacy Policy** | [https://rysun-harshilbhatt.github.io/monytrax/](https://rysun-harshilbhatt.github.io/monytrax/) |
-| **Help & Support Center** | [https://rysun-harshilbhatt.github.io/monytrax/support.html](https://rysun-harshilbhatt.github.io/monytrax/support.html) |
-| **Data Deletion Request** | [https://rysun-harshilbhatt.github.io/monytrax/support.html#data-deletion](https://rysun-harshilbhatt.github.io/monytrax/support.html#data-deletion) |
+| **Official Privacy Policy** | [https://rysun-harshilbhatt.github.io/MoneyTrax/](https://rysun-harshilbhatt.github.io/MoneyTrax/) |
+| **Help & Support Center** | [https://rysun-harshilbhatt.github.io/MoneyTrax/support.html](https://rysun-harshilbhatt.github.io/MoneyTrax/support.html) |
+| **Data Deletion Request** | [https://rysun-harshilbhatt.github.io/MoneyTrax/support.html#data-deletion](https://rysun-harshilbhatt.github.io/MoneyTrax/support.html#data-deletion) |
 | **Developer Website** | [https://www.rysun.com](https://www.rysun.com) |
 | **Support Email** | [kcspldoc@gmail.com](mailto:kcspldoc@gmail.com) |
 
@@ -283,7 +283,7 @@ func onUserSignUp() {
 | **Consent SDK Processing** | Transmitted over TLS/HTTPS directly to ConveyGrid API for statutory notices. |
 | **Third-Party Ads & Tracking** | **None**. Zero ad SDKs and zero analytics platforms. |
 | **In-App Account Deletion** | Available at **Settings → Delete Profile**. |
-| **Web Data Deletion URL** | `https://rysun-harshilbhatt.github.io/monytrax/support.html#data-deletion` |
+| **Web Data Deletion URL** | `https://rysun-harshilbhatt.github.io/MoneyTrax/support.html#data-deletion` |
 
 ---
 

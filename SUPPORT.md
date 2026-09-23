@@ -4,8 +4,8 @@
 **Developer / Organization:** Rysun  
 **Support Email:** [kcspldoc@gmail.com](mailto:kcspldoc@gmail.com)  
 **Official Website:** [https://www.rysun.com](https://www.rysun.com)  
-**Live Privacy Policy:** [https://rysun-harshilbhatt.github.io/monytrax/](https://rysun-harshilbhatt.github.io/monytrax/)  
-**Live Support URL:** [https://rysun-harshilbhatt.github.io/monytrax/support.html](https://rysun-harshilbhatt.github.io/monytrax/support.html)
+**Live Privacy Policy:** [https://rysun-harshilbhatt.github.io/MoneyTrax/](https://rysun-harshilbhatt.github.io/MoneyTrax/)  
+**Live Support URL:** [https://rysun-harshilbhatt.github.io/MoneyTrax/support.html](https://rysun-harshilbhatt.github.io/MoneyTrax/support.html)
 
 ---
 
@@ -40,4 +40,4 @@ No. MoneyTrax is ad-free and contains no tracking or analytics SDKs.
 
 ## 3. Account / Data Deletion Link for Store Submissions
 For Google Play Console and Apple App Store Review:
-- **Data Deletion URL:** `https://rysun-harshilbhatt.github.io/monytrax/support.html#data-deletion`
+- **Data Deletion URL:** `https://rysun-harshilbhatt.github.io/MoneyTrax/support.html#data-deletion`
