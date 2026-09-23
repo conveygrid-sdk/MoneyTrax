@@ -23,7 +23,7 @@
             --radius-lg: 16px;
             --radius-md: 10px;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.06);
             --danger: #EF4444;
             --danger-light: #FEF2F2;
         }
@@ -43,56 +43,62 @@
             padding: 0;
         }
 
-        header {
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            color: #FFFFFF;
-            padding: 48px 24px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* Top Navigation Bar */
+        .top-nav {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .header-content {
-            max-width: 820px;
+        .nav-inner {
+            max-width: 860px;
             margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .badge {
-            display: inline-block;
-            background-color: rgba(46, 87, 245, 0.2);
-            color: #93C5FD;
-            border: 1px solid rgba(147, 197, 253, 0.3);
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            margin-bottom: 16px;
-        }
-
-        h1 {
-            font-size: 2.25rem;
+        .brand-logo {
+            font-size: 1.15rem;
             font-weight: 800;
-            letter-spacing: -0.025em;
-            margin-bottom: 12px;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .app-meta {
-            font-size: 0.95rem;
-            color: #94A3B8;
-            margin-top: 8px;
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
         }
 
         .container {
             max-width: 860px;
-            margin: -32px auto 60px auto;
+            margin: 36px auto 60px auto;
             padding: 0 20px;
         }
 
         .card {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
-            padding: 36px 40px;
+            padding: 40px 44px;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border);
             margin-bottom: 28px;
@@ -102,9 +108,42 @@
             .card {
                 padding: 24px 20px;
             }
-            h1 {
-                font-size: 1.75rem;
+            .nav-inner {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
             }
+            .nav-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        .doc-header {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 9999px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: var(--text-main);
+            margin-bottom: 6px;
         }
 
         .summary-grid {
@@ -144,7 +183,7 @@
         }
 
         h2 {
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-main);
             margin: 32px 0 14px 0;
@@ -269,26 +308,6 @@
             text-decoration: underline;
         }
 
-        .nav-links {
-            margin-top: 16px;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .nav-link {
-            color: #93C5FD;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #FFFFFF;
-            text-decoration: underline;
-        }
-
         footer {
             text-align: center;
             font-size: 0.85rem;
@@ -299,19 +318,24 @@
 </head>
 <body>
 
-<header>
-    <div class="header-content">
-        <span class="badge">Official Privacy Policy</span>
-        <h1>Privacy Policy for MoneyTrax</h1>
+<nav class="top-nav">
+    <div class="nav-inner">
+        <a href="index.html" class="brand-logo">💰 MoneyTrax</a>
         <div class="nav-links">
-            <a href="support.html" class="nav-link">Support &amp; Help Center →</a>
+            <a href="index.html" class="nav-link active">Privacy Policy</a>
+            <a href="support.html" class="nav-link">Support Center</a>
             <a href="https://www.rysun.com" target="_blank" rel="noopener" class="nav-link">Official Website ↗</a>
         </div>
     </div>
-</header>
+</nav>
 
 <div class="container">
     <div class="card">
+        <div class="doc-header">
+            <span class="badge">Official Legal Document</span>
+            <h1>Privacy Policy for MoneyTrax</h1>
+        </div>
+
         <div class="callout callout-success">
             <strong>Key Highlights:</strong> MoneyTrax stores all your financial expenses, income, and budgets <strong>locally on your personal device</strong>. We do not sell your personal data, and we do not run third-party advertisements or tracking analytics.
         </div>

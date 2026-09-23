@@ -3,7 +3,7 @@
 **Last Updated:** September 22, 2026  
 **Effective Date:** September 22, 2026
 
-Welcome to **MoneyTrax** ("the App", "we", "us", or "our"), developed by **Rysun** ("Developer", "Company"). We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how your information is collected, used, disclosed, and safeguarded when you use the MoneyTrax mobile application (`com.rysun.dailyexpensetracker`).
+Welcome to **MoneyTrax** ("the App", "we", "us", or "our"), developed by **Rysun** ("Developer", "Company"). We respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how your information is collected, used, disclosed, and safeguarded when you use the MoneyTrax mobile application.
 
 Please read this Privacy Policy carefully. By downloading, accessing, or using MoneyTrax, you acknowledge that you have read, understood, and agree to the practices described in this policy. If you do not agree with the terms of this Privacy Policy, please do not access or use the App.
 
