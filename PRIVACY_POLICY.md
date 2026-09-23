@@ -150,7 +150,5 @@ If you have any questions, concerns, feedback, or complaints regarding this Priv
 
 - **Entity / Developer:** Rysun
 - **Application Name:** MoneyTrax
-- **Package / Bundle ID:** `com.rysun.dailyexpensetracker`
 - **Contact / Support Email:** [kcspldoc@gmail.com](mailto:kcspldoc@gmail.com)
 - **Official Website:** [https://www.rysun.com](https://www.rysun.com)
-- **Data Protection Officer / Grievance Officer:** Grievance Officer, Rysun

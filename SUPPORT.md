@@ -1,7 +1,6 @@
 # Support & Help Center - MoneyTrax
 
 **Application Name:** MoneyTrax  
-**Package / Bundle ID:** `com.rysun.dailyexpensetracker`  
 **Developer / Organization:** Rysun  
 **Support Email:** [kcspldoc@gmail.com](mailto:kcspldoc@gmail.com)  
 **Official Website:** [https://www.rysun.com](https://www.rysun.com)  
