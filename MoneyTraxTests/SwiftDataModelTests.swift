@@ -31,16 +31,16 @@ final class SwiftDataModelTests: XCTestCase {
     func testCreateAndFetchProfile() throws {
         let repo = UserProfileRepository(modelContext: context)
         let profile = UserProfile(
-            firstName: "Harshil",
-            email: "harshil@example.com",
+            firstName: "Alex",
+            email: "alex@example.com",
             mobileNumber: "9876543210"
         )
         try repo.save(profile)
 
         let fetched = repo.fetch()
         XCTAssertNotNil(fetched)
-        XCTAssertEqual(fetched?.firstName, "Harshil")
-        XCTAssertEqual(fetched?.email, "harshil@example.com")
+        XCTAssertEqual(fetched?.firstName, "Alex")
+        XCTAssertEqual(fetched?.email, "alex@example.com")
         XCTAssertEqual(fetched?.currencySymbol, "₹")
     }
 
@@ -311,6 +311,90 @@ final class SwiftDataModelTests: XCTestCase {
         XCTAssertEqual(remainingCats.count, 1)
         XCTAssertEqual(remainingCats.first?.name, "Food")
         XCTAssertTrue(remainingCats.first?.isDefault == true)
+    }
+
+    // MARK: - Guest Mode & Limit Tests
+
+    func testGuestModeTransactionLimitAndRemoval() throws {
+        let profileRepo = UserProfileRepository(modelContext: context)
+        let expenseRepo = ExpenseRepository(modelContext: context)
+        let incomeRepo = IncomeRepository(modelContext: context)
+
+        // Ensure user is guest (no profile)
+        XCTAssertNil(profileRepo.fetch())
+        XCTAssertEqual(AppState.guestTransactionLimit, 3)
+
+        // Add 1st transaction (Expense)
+        let exp1 = Expense(amount: 150, category: "Food")
+        try expenseRepo.save(exp1)
+        var total = expenseRepo.fetchAll().count + incomeRepo.fetchAll().count
+        XCTAssertEqual(total, 1)
+        XCTAssertFalse(total >= AppState.guestTransactionLimit)
+
+        // Add 2nd transaction (Income)
+        let inc1 = Income(amount: 5000, source: "Freelance")
+        try incomeRepo.save(inc1)
+        total = expenseRepo.fetchAll().count + incomeRepo.fetchAll().count
+        XCTAssertEqual(total, 2)
+        XCTAssertFalse(total >= AppState.guestTransactionLimit)
+
+        // Add 3rd transaction (Expense)
+        let exp2 = Expense(amount: 200, category: "Transport")
+        try expenseRepo.save(exp2)
+        total = expenseRepo.fetchAll().count + incomeRepo.fetchAll().count
+        XCTAssertEqual(total, 3)
+        // Limit is now reached
+        XCTAssertTrue(total >= AppState.guestTransactionLimit)
+
+        // Remove 1 transaction (Income)
+        try incomeRepo.delete(inc1)
+        total = expenseRepo.fetchAll().count + incomeRepo.fetchAll().count
+        XCTAssertEqual(total, 2)
+        // User can now add 1 more transaction because slot is freed
+        XCTAssertFalse(total >= AppState.guestTransactionLimit)
+
+        // Add 3rd transaction again (Income)
+        let inc2 = Income(amount: 2500, source: "Dividends")
+        try incomeRepo.save(inc2)
+        total = expenseRepo.fetchAll().count + incomeRepo.fetchAll().count
+        XCTAssertEqual(total, 3)
+        XCTAssertTrue(total >= AppState.guestTransactionLimit)
+    }
+
+    func testProfileCreationRemovesTransactionLimit() throws {
+        let profileRepo = UserProfileRepository(modelContext: context)
+        let expenseRepo = ExpenseRepository(modelContext: context)
+
+        // Guest reaches limit of 3
+        try expenseRepo.save(Expense(amount: 10, category: "A"))
+        try expenseRepo.save(Expense(amount: 20, category: "B"))
+        try expenseRepo.save(Expense(amount: 30, category: "C"))
+        XCTAssertEqual(expenseRepo.fetchAll().count, 3)
+
+        // Now user creates profile
+        let profile = UserProfile(firstName: "Taylor", email: "taylor@example.com", mobileNumber: "1234567890")
+        try profileRepo.save(profile)
+        XCTAssertNotNil(profileRepo.fetch())
+
+        // User can now add beyond 3 transactions without restriction
+        try expenseRepo.save(Expense(amount: 40, category: "D"))
+        try expenseRepo.save(Expense(amount: 50, category: "E"))
+        XCTAssertEqual(expenseRepo.fetchAll().count, 5)
+    }
+
+    func testAppStateSkipAndReset() {
+        let appState = AppState()
+        // Reset to clean state
+        appState.resetSkippedProfileCreation()
+        XCTAssertFalse(appState.hasSkippedProfileCreation)
+
+        // Skip profile creation
+        appState.skipProfileCreation()
+        XCTAssertTrue(appState.hasSkippedProfileCreation)
+
+        // Reset again
+        appState.resetSkippedProfileCreation()
+        XCTAssertFalse(appState.hasSkippedProfileCreation)
     }
 
 }

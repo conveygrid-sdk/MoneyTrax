@@ -11,6 +11,10 @@ struct DashboardView: View {
     private var profile: UserProfile? { profiles.first }
     private var currency: String { profile?.currencySymbol ?? "₹" }
 
+    private var isGuest: Bool { profiles.isEmpty }
+    private var totalTransactions: Int { allExpenses.count + allIncomes.count }
+    private var isLimitReached: Bool { isGuest && totalTransactions >= AppState.guestTransactionLimit }
+
     private var currentMonth: Int { Date().monthNumber }
     private var currentYear: Int { Date().yearNumber }
 
@@ -47,6 +51,11 @@ struct DashboardView: View {
                 VStack(spacing: 20) {
                     // Greeting header
                     greetingSection
+
+                    // Guest Trial Banner
+                    if isGuest {
+                        guestTrialBanner
+                    }
 
                     // Balance card
                     balanceCard
@@ -91,7 +100,7 @@ struct DashboardView: View {
                 .font(.title3)
                 .foregroundStyle(.secondary)
 
-            Text(profile?.firstName ?? "User")
+            Text(profile?.firstName ?? "Guest")
                 .font(.title.weight(.bold))
 
             Text(Date().monthYearString)
@@ -100,6 +109,45 @@ struct DashboardView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.top, 8)
+    }
+
+    private var guestTrialBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: isLimitReached ? "exclamationmark.circle.fill" : "sparkles")
+                .font(.title3)
+                .foregroundStyle(isLimitReached ? Color.expenseRed : Color(red: 0.18, green: 0.34, blue: 0.96))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(isLimitReached ? "Guest Limit Reached (\(totalTransactions)/\(AppState.guestTransactionLimit))" : "Guest Mode (\(totalTransactions)/\(AppState.guestTransactionLimit) used)")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.primary)
+
+                Text(isLimitReached ? "Create your profile to continue adding transactions" : "Try MoneyTrax with up to 3 transactions")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Button("Create Profile") {
+                appState.showCreateProfileSheet = true
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(Color(red: 0.18, green: 0.34, blue: 0.96))
+            .clipShape(Capsule())
+        }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(isLimitReached ? Color.expenseRed.opacity(0.1) : Color(red: 0.18, green: 0.34, blue: 0.96).opacity(0.08))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(isLimitReached ? Color.expenseRed.opacity(0.3) : Color(red: 0.18, green: 0.34, blue: 0.96).opacity(0.2), lineWidth: 1)
+        )
     }
 
     private var balanceCard: some View {
@@ -152,7 +200,11 @@ struct DashboardView: View {
     private var quickActionsSection: some View {
         HStack(spacing: 12) {
             Button {
-                appState.showAddExpenseSheet = true
+                if isLimitReached {
+                    appState.showCreateProfileSheet = true
+                } else {
+                    appState.showAddExpenseSheet = true
+                }
             } label: {
                 Label("Add Expense", systemImage: "minus.circle.fill")
                     .font(.subheadline.weight(.medium))
@@ -165,7 +217,11 @@ struct DashboardView: View {
             .accessibilityIdentifier("quickAddExpense")
 
             Button {
-                appState.showAddIncomeSheet = true
+                if isLimitReached {
+                    appState.showCreateProfileSheet = true
+                } else {
+                    appState.showAddIncomeSheet = true
+                }
             } label: {
                 Label("Add Income", systemImage: "plus.circle.fill")
                     .font(.subheadline.weight(.medium))

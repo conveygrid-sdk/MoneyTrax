@@ -3,6 +3,7 @@ import SwiftData
 
 struct DeleteProfileView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(AppState.self) private var appState
     @State private var showConfirmation = false
     @State private var confirmText = ""
     @State private var isDeleting = false
@@ -98,6 +99,8 @@ struct DeleteProfileView: View {
         let repo = UserProfileRepository(modelContext: modelContext)
         do {
             try repo.deleteAllData()
+            appState.resetSkippedProfileCreation()
+            appState.selectedTab = .home
         } catch {
             print("Deletion error: \(error)")
         }

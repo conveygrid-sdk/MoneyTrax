@@ -3,6 +3,7 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(AppState.self) private var appState
     @Query private var profiles: [UserProfile]
 
     private var profile: UserProfile? { profiles.first }
@@ -37,6 +38,36 @@ struct SettingsView: View {
                             .padding(.vertical, 4)
                         }
                         .accessibilityIdentifier("profileRow")
+                    }
+                } else {
+                    Section {
+                        HStack(spacing: 14) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color(red: 0.18, green: 0.34, blue: 0.96).opacity(0.12))
+                                    .frame(width: 48, height: 48)
+                                Image(systemName: "person.crop.circle.badge.plus")
+                                    .font(.title3)
+                                    .foregroundStyle(Color(red: 0.18, green: 0.34, blue: 0.96))
+                            }
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Guest User")
+                                    .font(.body.weight(.medium))
+                                Text("Tap to create profile & unlock unlimited tracking")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            Button("Create") {
+                                appState.showCreateProfileSheet = true
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.small)
+                        }
+                        .padding(.vertical, 4)
                     }
                 }
 
@@ -87,7 +118,7 @@ struct SettingsView: View {
                     NavigationLink {
                         DeleteProfileView()
                     } label: {
-                        Label("Delete Profile", systemImage: "trash.fill")
+                        Label(profile != nil ? "Delete Profile" : "Reset Guest Data", systemImage: "trash.fill")
                             .foregroundStyle(.red)
                     }
                     .accessibilityIdentifier("deleteProfileRow")

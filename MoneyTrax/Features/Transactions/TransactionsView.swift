@@ -3,6 +3,7 @@ import SwiftData
 
 struct TransactionsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(AppState.self) private var appState
     @Query(sort: \Expense.date, order: .reverse) private var expenses: [Expense]
     @Query(sort: \Income.date, order: .reverse) private var incomes: [Income]
     @Query private var profiles: [UserProfile]
@@ -11,6 +12,8 @@ struct TransactionsView: View {
     @State private var filterType: TransactionFilter = .all
     @State private var sortByAmount = false
 
+    private var isGuest: Bool { profiles.isEmpty }
+    private var totalTransactions: Int { expenses.count + incomes.count }
     private var currency: String { profiles.first?.currencySymbol ?? "₹" }
 
     enum TransactionFilter: String, CaseIterable {
@@ -98,6 +101,26 @@ struct TransactionsView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
 
+                if isGuest {
+                    HStack(spacing: 8) {
+                        Image(systemName: totalTransactions >= AppState.guestTransactionLimit ? "exclamationmark.circle.fill" : "info.circle.fill")
+                            .foregroundStyle(totalTransactions >= AppState.guestTransactionLimit ? Color.expenseRed : Color(red: 0.18, green: 0.34, blue: 0.96))
+                        Text(totalTransactions >= AppState.guestTransactionLimit ? "Guest limit reached (3/3). Delete or create profile to add more." : "Guest Mode: \(totalTransactions)/\(AppState.guestTransactionLimit) transactions used")
+                            .font(.caption.weight(.medium))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                        Spacer()
+                        Button("Unlock All") {
+                            appState.showCreateProfileSheet = true
+                        }
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(Color(red: 0.18, green: 0.34, blue: 0.96))
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.elevatedBackground)
+                }
+
                 if allTransactions.isEmpty {
                     Spacer()
                     VStack(spacing: 12) {
@@ -119,6 +142,13 @@ struct TransactionsView: View {
                             Section(group.date) {
                                 ForEach(group.items) { item in
                                     transactionRow(item)
+                                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                            Button(role: .destructive) {
+                                                deleteTransaction(item)
+                                            } label: {
+                                                Label("Delete", systemImage: "trash")
+                                            }
+                                        }
                                 }
                             }
                         }
@@ -147,6 +177,19 @@ struct TransactionsView: View {
                 }
             }
         }
+    }
+
+    private func deleteTransaction(_ item: TransactionItem) {
+        if item.isIncome {
+            if let income = incomes.first(where: { $0.id == item.id }) {
+                modelContext.delete(income)
+            }
+        } else {
+            if let expense = expenses.first(where: { $0.id == item.id }) {
+                modelContext.delete(expense)
+            }
+        }
+        try? modelContext.save()
     }
 
     private func transactionRow(_ item: TransactionItem) -> some View {

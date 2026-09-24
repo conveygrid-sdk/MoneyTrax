@@ -51,6 +51,7 @@
 		E34140AC8DA246C54F2B082E /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EEC152F1825A6FA15C368E /* PaymentMethod.swift */; };
 		E6188A8E8ABF7F37413D87E7 /* ExpenseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC2CBEDDB08475CE19976D7 /* ExpenseDetailView.swift */; };
 		E7DD3459043398DDDAD6A0BF /* View+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6274903E5F66FA7DB9D70A /* View+Keyboard.swift */; };
+		E8DD09103065484C0046283C /* SammatiNoticeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = E8DD090F3065484C0046283C /* SammatiNoticeSDK */; };
 		EC7984340562BCB27C40CFAE /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732621006D61AB3AEB98B8EA /* BudgetView.swift */; };
 		F96E984D3142CC81A2EF9A5B /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B88524580B79065E3426E45 /* WelcomeView.swift */; };
 		FC54BC3DED37DA7D09CBFA1F /* DeleteProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE6E01EED8485817B0751F3 /* DeleteProfileView.swift */; };
@@ -87,7 +88,7 @@
 		4B0660738E5DD4791B3934D2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		538EE5FCBF7C72EB0A2C0781 /* Double+Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Currency.swift"; sourceTree = "<group>"; };
 		58D4DD483268B052FA4CC42F /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
-		6156567DB2A87EA22BB3E74C /* conveygrid-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "conveygrid-ios-sdk"; path = "../../Documents/Harshil's Work/Live Projects/Python Project/conveygrid-ios-sdk"; sourceTree = SOURCE_ROOT; };
+		6156567DB2A87EA22BB3E74C /* conveygrid-ios-sdk */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "conveygrid-ios-sdk"; path = "../../conveygrid-ios-sdk"; sourceTree = SOURCE_ROOT; };
 		661457666442987069039D21 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
 		66D49A441574FA33FE379C60 /* CurrencySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySettingsView.swift; sourceTree = "<group>"; };
 		6B88524580B79065E3426E45 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8DD09103065484C0046283C /* SammatiNoticeSDK in Frameworks */,
 				79590E378C4C78C50BBFF342 /* SammatiNoticeSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +373,7 @@
 			name = MoneyTrax;
 			packageProductDependencies = (
 				13FFD445DE76D5301BACD97B /* SammatiNoticeSDK */,
+				E8DD090F3065484C0046283C /* SammatiNoticeSDK */,
 			);
 			productName = MoneyTrax;
 			productReference = E3BCAD6BD3DC86DD7253E517 /* MoneyTrax.app */;
@@ -418,7 +421,7 @@
 			mainGroup = F6C2AA7A6F553E7375DA7CB3;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				CD91D1CC56666DFCE7BC1C0B /* XCLocalSwiftPackageReference "../../Documents/Harshil's Work/Live Projects/Python Project/conveygrid-ios-sdk" */,
+				E8DD090E3065484C0046283C /* XCLocalSwiftPackageReference "../../conveygrid-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9877D1151E4F91663A0427FF /* Products */;
@@ -763,14 +766,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		CD91D1CC56666DFCE7BC1C0B /* XCLocalSwiftPackageReference "../../Documents/Harshil's Work/Live Projects/Python Project/conveygrid-ios-sdk" */ = {
+		E8DD090E3065484C0046283C /* XCLocalSwiftPackageReference "../../conveygrid-ios-sdk" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../Documents/Harshil's Work/Live Projects/Python Project/conveygrid-ios-sdk";
+			relativePath = "../../conveygrid-ios-sdk";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		13FFD445DE76D5301BACD97B /* SammatiNoticeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SammatiNoticeSDK;
+		};
+		E8DD090F3065484C0046283C /* SammatiNoticeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SammatiNoticeSDK;
 		};

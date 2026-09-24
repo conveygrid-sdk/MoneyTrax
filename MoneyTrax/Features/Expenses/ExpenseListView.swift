@@ -5,6 +5,7 @@ struct ExpenseListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(AppState.self) private var appState
     @Query(sort: \Expense.date, order: .reverse) private var expenses: [Expense]
+    @Query private var incomes: [Income]
     @Query private var profiles: [UserProfile]
     @Query private var categories: [ExpenseCategory]
 
@@ -13,6 +14,9 @@ struct ExpenseListView: View {
     @State private var showFilters = false
     @State private var sortByAmount = false
 
+    private var isGuest: Bool { profiles.isEmpty }
+    private var totalTransactions: Int { expenses.count + incomes.count }
+    private var isLimitReached: Bool { isGuest && totalTransactions >= AppState.guestTransactionLimit }
     private var currency: String { profiles.first?.currencySymbol ?? "₹" }
 
     private var filteredExpenses: [Expense] {
@@ -78,7 +82,11 @@ struct ExpenseListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        appState.showAddExpenseSheet = true
+                        if isLimitReached {
+                            appState.showCreateProfileSheet = true
+                        } else {
+                            appState.showAddExpenseSheet = true
+                        }
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title3)

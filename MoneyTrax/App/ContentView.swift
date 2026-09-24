@@ -8,13 +8,22 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if profiles.isEmpty {
+            if profiles.isEmpty && !appState.hasSkippedProfileCreation {
                 OnboardingFlow()
+                    .onAppear {
+                        appState.selectedTab = .home
+                    }
             } else {
                 MainTabView()
             }
         }
         .animation(.easeInOut(duration: 0.3), value: profiles.isEmpty)
+        .animation(.easeInOut(duration: 0.3), value: appState.hasSkippedProfileCreation)
+        .onChange(of: profiles.isEmpty) { _, isEmpty in
+            if isEmpty {
+                appState.selectedTab = .home
+            }
+        }
     }
 }
 
@@ -23,6 +32,13 @@ struct ContentView: View {
 struct MainTabView: View {
     @Environment(AppState.self) private var appState
     @State private var previousTab: AppState.AppTab = .home
+    @Query private var profiles: [UserProfile]
+    @Query private var expenses: [Expense]
+    @Query private var incomes: [Income]
+
+    private var isGuest: Bool { profiles.isEmpty }
+    private var totalTransactions: Int { expenses.count + incomes.count }
+    private var isLimitReached: Bool { isGuest && totalTransactions >= AppState.guestTransactionLimit }
 
     var body: some View {
         @Bindable var state = appState
@@ -65,7 +81,11 @@ struct MainTabView: View {
                 if newValue == .add {
                     previousTab = oldValue
                     appState.selectedTab = previousTab
-                    appState.showAddActionSheet = true
+                    if isLimitReached {
+                        appState.showCreateProfileSheet = true
+                    } else {
+                        appState.showAddActionSheet = true
+                    }
                 } else {
                     previousTab = newValue
                 }
@@ -73,10 +93,18 @@ struct MainTabView: View {
         }
         .confirmationDialog("Add New", isPresented: Bindable(appState).showAddActionSheet) {
             Button("Add Expense") {
-                appState.showAddExpenseSheet = true
+                if isLimitReached {
+                    appState.showCreateProfileSheet = true
+                } else {
+                    appState.showAddExpenseSheet = true
+                }
             }
             Button("Add Income") {
-                appState.showAddIncomeSheet = true
+                if isLimitReached {
+                    appState.showCreateProfileSheet = true
+                } else {
+                    appState.showAddIncomeSheet = true
+                }
             }
             Button("Cancel", role: .cancel) {}
         }
@@ -85,6 +113,14 @@ struct MainTabView: View {
         }
         .sheet(isPresented: Bindable(appState).showAddIncomeSheet) {
             AddIncomeView()
+        }
+        .sheet(isPresented: Bindable(appState).showCreateProfileSheet) {
+            NavigationStack {
+                CreateProfileView(
+                    isPresentedAsSheet: true,
+                    reasonMessage: isLimitReached ? "Guest mode allows up to 3 transactions. Create your profile to enjoy unlimited expense and income tracking." : nil
+                )
+            }
         }
     }
 }

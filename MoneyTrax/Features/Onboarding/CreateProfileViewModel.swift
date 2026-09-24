@@ -58,7 +58,7 @@ final class CreateProfileViewModel: ObservableObject {
 
     // MARK: - Profile Creation
 
-    func createProfile(modelContext: ModelContext) {
+    func createProfile(modelContext: ModelContext, onSuccess: (() -> Void)? = nil) {
         let trimmedName = fullName.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let trimmedMobile = mobileNumber.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -94,6 +94,7 @@ final class CreateProfileViewModel: ObservableObject {
                 try modelContext.save()
 
                 isLoading = false
+                onSuccess?()
                 // Profile is saved — ContentView will detect it via @Query and switch to Dashboard
             } catch {
                 // Do not save profile and do not navigate to Dashboard

@@ -4,7 +4,10 @@ import SwiftData
 struct AddIncomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(AppState.self) private var appState
     @Query private var profiles: [UserProfile]
+    @Query private var allExpenses: [Expense]
+    @Query private var allIncomes: [Income]
 
     var existingIncome: Income?
 
@@ -16,8 +19,12 @@ struct AddIncomeView: View {
 
     private var currency: String { profiles.first?.currencySymbol ?? "₹" }
     private var isEditing: Bool { existingIncome != nil }
+    private var isGuest: Bool { profiles.isEmpty }
+    private var totalTransactions: Int { allExpenses.count + allIncomes.count }
+    private var isLimitReached: Bool { isGuest && !isEditing && totalTransactions >= AppState.guestTransactionLimit }
 
     private var isValid: Bool {
+        if isLimitReached { return false }
         guard let amount = Double(amountText), amount > 0 else { return false }
         return !source.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
@@ -25,6 +32,30 @@ struct AddIncomeView: View {
     var body: some View {
         NavigationStack {
             Form {
+                if isLimitReached {
+                    Section {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "lock.fill")
+                                    .foregroundStyle(Color.expenseRed)
+                                Text("Transaction Limit Reached")
+                                    .font(.subheadline.weight(.semibold))
+                            }
+                            Text("Guest mode allows up to 3 transactions. Please create your profile to add more.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Button("Create Profile Now") {
+                                dismiss()
+                                appState.showCreateProfileSheet = true
+                            }
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(Color(red: 0.18, green: 0.34, blue: 0.96))
+                            .padding(.top, 4)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+
                 // Amount
                 Section {
                     HStack {
@@ -122,6 +153,11 @@ struct AddIncomeView: View {
     }
 
     private func saveIncome() {
+        if isLimitReached {
+            dismiss()
+            appState.showCreateProfileSheet = true
+            return
+        }
         guard let amount = Double(amountText), amount > 0 else { return }
 
         if let income = existingIncome {

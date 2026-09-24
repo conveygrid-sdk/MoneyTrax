@@ -17,7 +17,7 @@ settings:
 
 packages:
   SammatiNoticeSDK:
-    path: "../../Documents/Harshil's Work/Live Projects/Python Project/conveygrid-ios-sdk"
+    path: "../../conveygrid-ios-sdk"
 
 targets:
   MoneyTrax:
